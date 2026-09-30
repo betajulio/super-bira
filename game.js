@@ -1024,7 +1024,7 @@ class Player {
         // Handle Gravity & Jumping
         this.vy += 0.55; // Gravity acceleration
         
-        const jumpPressed = keys['w'] || keys['ArrowUp'] || keys[' '] || keys['btn-jump'];
+        const jumpPressed = keys['w'] || keys['ArrowUp'] || keys[' '] || keys['btn-jump'] || keys['btn-up'];
         if (jumpPressed && this.isGrounded && !this.isDashing) {
             this.vy = jumpStrength;
             this.isGrounded = false;
@@ -1657,41 +1657,138 @@ class Game {
             sfxBtn.classList.toggle('active', on);
         });
 
-        // Setup Virtual Controller hooks for Mobile support
-        const setupMobileButton = (id, key) => {
+        // Game Boy START Button (Menu, Pause, Resume, Restart)
+        const startBtn = document.getElementById('btn-pause-start');
+        if (startBtn) {
+            const handleStart = (e) => {
+                if (e) e.preventDefault();
+                startBtn.classList.add('pressed');
+                setTimeout(() => startBtn.classList.remove('pressed'), 120);
+
+                if (this.state === 'MENU') {
+                    this.startNewGame();
+                } else if (this.state === 'PLAYING') {
+                    this.state = 'PAUSED';
+                    document.getElementById('screen-paused').classList.remove('hidden');
+                } else if (this.state === 'PAUSED') {
+                    this.state = 'PLAYING';
+                    document.getElementById('screen-paused').classList.add('hidden');
+                } else if (this.state === 'GAMEOVER' || this.state === 'VICTORY') {
+                    this.startNewGame();
+                }
+            };
+            startBtn.addEventListener('touchstart', handleStart, { passive: false });
+            startBtn.addEventListener('click', handleStart);
+        }
+
+        // Setup Virtual Game Boy Button helper with tactile feedback
+        const setupGBButton = (id, key, isThrow = false) => {
             const btn = document.getElementById(id);
             if (!btn) return;
             
-            const startPress = (e) => {
-                e.preventDefault();
+            const press = (e) => {
+                if (e) e.preventDefault();
                 this.keys[key] = true;
-                if (key === 'throw') this.throwChinelo();
+                btn.classList.add('pressed');
+                if (isThrow) this.throwChinelo();
             };
-            const endPress = (e) => {
-                e.preventDefault();
+            const release = (e) => {
+                if (e) e.preventDefault();
                 this.keys[key] = false;
+                btn.classList.remove('pressed');
             };
             
-            btn.addEventListener('touchstart', startPress, {passive: false});
-            btn.addEventListener('touchend', endPress, {passive: false});
-            btn.addEventListener('mousedown', startPress);
-            btn.addEventListener('mouseup', endPress);
-            btn.addEventListener('mouseleave', endPress);
+            btn.addEventListener('touchstart', press, { passive: false });
+            btn.addEventListener('touchend', release, { passive: false });
+            btn.addEventListener('touchcancel', release, { passive: false });
+            btn.addEventListener('mousedown', press);
+            btn.addEventListener('mouseup', release);
+            btn.addEventListener('mouseleave', release);
         };
 
-        setupMobileButton('btn-left', 'btn-left');
-        setupMobileButton('btn-right', 'btn-right');
-        setupMobileButton('btn-jump', 'btn-jump');
-        setupMobileButton('btn-dash', 'btn-dash');
-        
-        // Touch shoot button trigger
-        const throwBtn = document.getElementById('btn-throw');
-        if (throwBtn) {
-            throwBtn.addEventListener('touchstart', (e) => {
+        // Wire Up Game Boy Buttons
+        setupGBButton('btn-left', 'btn-left');
+        setupGBButton('btn-right', 'btn-right');
+        setupGBButton('btn-up', 'btn-up');
+        setupGBButton('btn-down', 'btn-down');
+        setupGBButton('btn-jump', 'btn-jump');
+        setupGBButton('btn-dash', 'btn-dash');
+        setupGBButton('btn-throw', 'btn-throw', true);
+
+        // Smooth D-Pad Touch-Slide support (allows sliding thumb between directions!)
+        const dpadContainer = document.getElementById('gb-dpad');
+        if (dpadContainer) {
+            let activeDpadTouchId = null;
+
+            const handleDpadTouch = (e) => {
                 e.preventDefault();
-                this.throwChinelo();
-            }, {passive: false});
-            throwBtn.addEventListener('click', () => this.throwChinelo());
+                const touches = e.touches || e.changedTouches;
+                if (!touches) return;
+
+                const rect = dpadContainer.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                // Reset dpad directions
+                this.keys['btn-left'] = false;
+                this.keys['btn-right'] = false;
+                this.keys['btn-up'] = false;
+                this.keys['btn-down'] = false;
+                
+                document.getElementById('btn-left')?.classList.remove('pressed');
+                document.getElementById('btn-right')?.classList.remove('pressed');
+                document.getElementById('btn-up')?.classList.remove('pressed');
+                document.getElementById('btn-down')?.classList.remove('pressed');
+
+                for (let i = 0; i < touches.length; i++) {
+                    const touch = touches[i];
+                    const dx = touch.clientX - centerX;
+                    const dy = touch.clientY - centerY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    // If inside D-pad radius (within 75px)
+                    if (dist < 75 && dist > 10) {
+                        const angle = Math.atan2(dy, dx) * (180 / Math.PI); // -180 to 180
+
+                        // Right: -45 to 45
+                        if (angle >= -45 && angle <= 45) {
+                            this.keys['btn-right'] = true;
+                            document.getElementById('btn-right')?.classList.add('pressed');
+                        }
+                        // Left: > 135 or < -135
+                        else if (angle >= 135 || angle <= -135) {
+                            this.keys['btn-left'] = true;
+                            document.getElementById('btn-left')?.classList.add('pressed');
+                        }
+                        // Up: -135 to -45
+                        else if (angle > -135 && angle < -45) {
+                            this.keys['btn-up'] = true;
+                            document.getElementById('btn-up')?.classList.add('pressed');
+                        }
+                        // Down: 45 to 135
+                        else if (angle > 45 && angle < 135) {
+                            this.keys['btn-down'] = true;
+                            document.getElementById('btn-down')?.classList.add('pressed');
+                        }
+                    }
+                }
+            };
+
+            const resetDpad = (e) => {
+                this.keys['btn-left'] = false;
+                this.keys['btn-right'] = false;
+                this.keys['btn-up'] = false;
+                this.keys['btn-down'] = false;
+                document.getElementById('btn-left')?.classList.remove('pressed');
+                document.getElementById('btn-right')?.classList.remove('pressed');
+                document.getElementById('btn-up')?.classList.remove('pressed');
+                document.getElementById('btn-down')?.classList.remove('pressed');
+            };
+
+            dpadContainer.addEventListener('touchstart', handleDpadTouch, { passive: false });
+            dpadContainer.addEventListener('touchmove', handleDpadTouch, { passive: false });
+            dpadContainer.addEventListener('touchend', resetDpad, { passive: false });
+            dpadContainer.addEventListener('touchcancel', resetDpad, { passive: false });
         }
     }
 

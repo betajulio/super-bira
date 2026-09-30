@@ -2,64 +2,75 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Sr. Longuinho Adventures: O Rei do Boteco</title>
     <!-- Metatags para compartilhamento no WhatsApp e Redes Sociais -->
     <meta property="og:title" content="🎮 Sr. Longuinho Adventures: O Rei do Boteco">
-    <meta property="og:description" content="Ajude o Sr. Longuinho a fugir do Seu Manuel, desviar do Vira-Lata Caramelo e catar cervejas pelas ruas! Jogue grátis direto no navegador do celular!">
+    <meta property="og:description" content="Ajude o Sr. Longuinho a fugir do Seu Manuel, desviar do Vira-Lata Caramelo e catar cervejas pelas ruas! Jogue grátis no celular formato Game Boy!">
     <meta property="og:type" content="website">
-    <meta name="theme-color" content="#ffd700">
+    <meta name="theme-color" content="#251b38">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="arcade-container">
-        <!-- Arcade Header / Neon Sign -->
-        <header class="arcade-header">
-            <h1 class="neon-title" id="main-title">
-                <span class="word-super">SR.</span>
-                <span class="word-bira">LONGUINHO</span>
-                <span class="sub-title">Adventures</span>
-            </h1>
-        </header>
+    <div class="mobile-wrapper">
+        <!-- Game Boy Handheld Console Body -->
+        <div class="gameboy-body">
+            
+            <!-- Top Grooves & Power Switch Indicator -->
+            <div class="gameboy-top-bar">
+                <div class="gb-grooves">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="gb-brand-header">
+                    <span class="gb-logo-brand">LONGUINHO</span>
+                    <span class="gb-logo-sub">COLOR</span>
+                </div>
+                <div class="gb-grooves">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
 
-        <!-- Main Cabin Body -->
-        <div class="arcade-cabinet">
-            <!-- Left Info Panel: Stats / Story -->
-            <aside class="panel panel-left">
-                <div class="panel-header">STATUS DO ROLÊ</div>
-                <div class="panel-body">
-                    <div class="stat-box">
-                        <span class="stat-label">FÍGADO</span>
-                        <div class="liver-container" id="hud-liver">
-                            <span class="liver-glass empty">🍺</span>
-                            <span class="liver-glass empty">🍺</span>
-                            <span class="liver-glass empty">🍺</span>
-                        </div>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">CONTA (PONTOS)</span>
-                        <div class="stat-value neon-yellow" id="hud-score">R$ 0,00</div>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">TEOR ETÍLICO</span>
-                        <div class="drunk-bar-container">
-                            <div class="drunk-bar" id="hud-drunk-bar" style="width: 0%"></div>
-                            <span class="drunk-status" id="hud-drunk-status">Sóbrio</span>
-                        </div>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-label">CHINELOS</span>
-                        <div class="stat-value neon-blue" id="hud-ammo">🩴 x3</div>
+            <!-- Integrated HUD Bar (above screen, zero obstruction) -->
+            <div class="gameboy-hud">
+                <div class="hud-item hud-liver-box">
+                    <span class="hud-tag">FÍGADO</span>
+                    <div class="liver-container" id="hud-liver">
+                        <span class="liver-glass">🍺</span>
+                        <span class="liver-glass">🍺</span>
+                        <span class="liver-glass">🍺</span>
                     </div>
                 </div>
-            </aside>
+                <div class="hud-item hud-drunk-box">
+                    <div class="drunk-bar-container">
+                        <div class="drunk-bar" id="hud-drunk-bar" style="width: 0%"></div>
+                        <span class="drunk-status" id="hud-drunk-status">Sóbrio</span>
+                    </div>
+                </div>
+                <div class="hud-item hud-ammo-box">
+                    <span class="hud-val neon-blue" id="hud-ammo">🩴 x3</span>
+                </div>
+                <div class="hud-item hud-score-box">
+                    <span class="hud-val neon-yellow" id="hud-score">R$ 0,00</span>
+                </div>
+            </div>
 
-            <!-- Center Screen Panel -->
-            <main class="arcade-screen-wrapper">
-                <div class="screen-bezel">
+            <!-- Game Boy Screen Bezel with Glass Lens & Battery LED -->
+            <div class="gameboy-screen-bezel">
+                <div class="bezel-header-lines">
+                    <span class="bezel-line blue"></span>
+                    <span class="bezel-line magenta"></span>
+                </div>
+
+                <div class="screen-frame">
+                    <div class="battery-indicator">
+                        <span class="battery-led active"></span>
+                        <span class="battery-label">BATTERY</span>
+                    </div>
+
+                    <!-- Pure Unobstructed Canvas Screen -->
                     <div class="crt-screen">
                         <div class="scanlines"></div>
                         <canvas id="gameCanvas" width="800" height="480"></canvas>
@@ -67,7 +78,8 @@
                         <!-- Overlay Screens -->
                         <div id="screen-menu" class="overlay-screen active">
                             <h2 class="game-logo">SR. LONGUINHO</h2>
-                            <p class="tagline">Adventures: O Dono do Bar quer o pagamento, o caramelo quer seu lanche, e você só quer a próxima cerveja!</p>
+                            <span class="logo-subtitle">ADVENTURES</span>
+                            <p class="tagline">O Seu Manuel quer a conta, o caramelo quer seu lanche, e você só quer a próxima cerveja!</p>
                             
                             <div class="menu-options">
                                 <button id="btn-start" class="btn btn-primary">INICIAR ROLÊ</button>
@@ -76,29 +88,30 @@
                             
                             <div class="char-preview">
                                 <div class="pixel-bira-preview"></div>
-                                <span class="char-desc">Sr. Longuinho: O herói incompreendido da boemia brasileira.</span>
+                                <span class="char-desc">Sr. Longuinho: O herói da boemia brasileira.</span>
                             </div>
                         </div>
 
                         <div id="screen-instructions" class="overlay-screen hidden">
                             <h3>MANUAL DO BOÊMIO</h3>
                             <div class="instructions-content">
-                                <div class="control-group">
-                                    <strong>🎮 TECLADO:</strong>
+                                <div class="gameplay-group">
+                                    <strong>🎮 CONTROLES GAME BOY:</strong>
                                     <ul>
-                                        <li><kbd>A</kbd> / <kbd>D</kbd> ou <kbd>←</kbd> / <kbd>→</kbd> - Mover</li>
-                                        <li><kbd>W</kbd> / <kbd>↑</kbd> / <kbd>Espaço</kbd> - Pular</li>
-                                        <li><kbd>J</kbd> / <kbd>X</kbd> - Arremessar Chinelo 🩴</li>
-                                        <li><kbd>K</kbd> / <kbd>C</kbd> - Cambaleio / Dash ⚡</li>
-                                        <li><kbd>P</kbd> - Pausar</li>
+                                        <li><b>D-PAD ◀ / ▶</b>: Andar para os lados</li>
+                                        <li><b>BOTÃO A</b> ou <b>D-PAD ▲</b>: Pular</li>
+                                        <li><b>BOTÃO B 🩴</b>: Arremessar Chinelo</li>
+                                        <li><b>BOTÃO ⚡</b>: Cambaleio / Dash invencível</li>
+                                        <li><b>START</b>: Pausar / Continuar</li>
+                                        <li><b>SELECT</b>: Ligar / Desligar Música</li>
                                     </ul>
                                 </div>
                                 <div class="gameplay-group">
                                     <strong>🍻 REGRAS DO BOTECO:</strong>
                                     <ul>
-                                        <li>Beba <b>Cerveja / Cachaça / Corote</b> para subir o teor etílico e ganhar super velocidade e dash invencível.</li>
-                                        <li>Se beber demais, ficará confuso! Coma <b>Coxinha</b> para recuperar a sobriedade e a vida.</li>
-                                        <li>Cuidado com o <b>Vira-lata Caramelo</b>, o <b>Mendigo</b> querendo seu goró, e o **Seu Manuel** (dono do bar furioso)!</li>
+                                        <li>Beba <b>Cerveja / Corote</b> para correr mais rápido e pular alto.</li>
+                                        <li>Coma <b>Coxinha</b> para curar o fígado e recuperar a vida!</li>
+                                        <li>Pegue seu chinelo no bumerangue para recuperar munição!</li>
                                     </ul>
                                 </div>
                             </div>
@@ -117,66 +130,116 @@
 
                         <div id="screen-victory" class="overlay-screen hidden">
                             <h2 class="neon-green">MITO DO BOTECO!</h2>
-                            <p>Você pagou a conta (ou fugiu dela!), sobreviveu aos perigos das ruas brasileiras e chegou ao Boteco Lendário!</p>
+                            <p>Você sobreviveu às ruas e chegou ao lendário Boteco do Seu Manuel!</p>
                             <div class="score-summary">
-                                <span>DINHEIRO SOBRADO:</span>
+                                <span>SOBROU:</span>
                                 <span id="victory-score" class="stat-value neon-green">R$ 0,00</span>
                             </div>
                             <button id="btn-victory-restart" class="btn btn-primary">JOGAR DE NOVO</button>
                         </div>
 
                         <div id="screen-paused" class="overlay-screen hidden">
-                            <h2>PAUSA PARA O COPO D'ÁGUA</h2>
+                            <h2>PAUSA PRO GOLINHO</h2>
                             <p>O jogo está pausado. Respire fundo e recupere o fôlego.</p>
                             <button id="btn-resume" class="btn btn-primary">CONTINUAR</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Arcade Control Deck (Mobile Controls) -->
-                <div class="control-deck">
-                    <div class="joystick-area">
-                        <button class="control-btn" id="btn-left">◀</button>
-                        <button class="control-btn" id="btn-right">▶</button>
-                    </div>
-                    <div class="action-area">
-                        <button class="control-btn btn-jump" id="btn-jump">PULAR</button>
-                        <button class="control-btn btn-action" id="btn-throw">🩴</button>
-                        <button class="control-btn btn-dash" id="btn-dash">DASH</button>
+                <div class="bezel-footer">
+                    <span class="bezel-text">DOT MATRIX WITH STEREO SOUND</span>
+                </div>
+            </div>
+
+            <!-- Game Boy Lower Control Chassis (Zero Screen Obstruction!) -->
+            <div class="gameboy-controls-deck">
+                
+                <!-- D-Pad (Left Side) -->
+                <div class="dpad-wrapper">
+                    <div class="dpad" id="gb-dpad">
+                        <button class="dpad-btn dpad-up" id="btn-up" aria-label="Pular">
+                            <span class="arrow-glyph">▲</span>
+                        </button>
+                        <button class="dpad-btn dpad-left" id="btn-left" aria-label="Esquerda">
+                            <span class="arrow-glyph">◀</span>
+                        </button>
+                        <div class="dpad-center"></div>
+                        <button class="dpad-btn dpad-right" id="btn-right" aria-label="Direita">
+                            <span class="arrow-glyph">▶</span>
+                        </button>
+                        <button class="dpad-btn dpad-down" id="btn-down" aria-label="Abaixo">
+                            <span class="arrow-glyph">▼</span>
+                        </button>
                     </div>
                 </div>
-            </main>
 
-            <!-- Right Info Panel: Scores / Audio Control -->
-            <aside class="panel panel-right">
-                <div class="panel-header">PLACAR DE LÍDERES</div>
-                <div class="panel-body">
-                    <ol class="score-list" id="high-score-list">
-                        <li><span>1. Sr. Longuinho</span> <span class="neon-yellow">R$ 1500</span></li>
-                        <li><span>2. Zeca do Copo</span> <span class="neon-yellow">R$ 1200</span></li>
-                        <li><span>3. Caramelo</span> <span class="neon-yellow">R$ 900</span></li>
-                        <li><span>4. Seu Manuel</span> <span class="neon-yellow">R$ 500</span></li>
-                        <li><span>5. Visitante</span> <span class="neon-yellow">R$ 100</span></li>
-                    </ol>
-
-                    <div class="audio-controls">
-                        <div class="panel-header-mini">SOM & MÚSICA</div>
-                        <div class="audio-toggles">
-                            <button id="btn-toggle-music" class="audio-btn active">🎵 MÚSICA: ON</button>
-                            <button id="btn-toggle-sfx" class="audio-btn active">🔊 EFEITOS: ON</button>
+                <!-- Action Buttons A & B & Dash (Right Side, Slanted) -->
+                <div class="action-buttons-wrapper">
+                    <div class="action-cluster">
+                        <!-- Dash Button (Top) -->
+                        <div class="btn-group btn-group-dash">
+                            <button class="gb-action-btn btn-dash-round" id="btn-dash" aria-label="Dash">⚡</button>
+                            <span class="btn-label">DASH</span>
+                        </div>
+                        <div class="action-row-ab">
+                            <!-- B Button: Throw Chinelo -->
+                            <div class="btn-group btn-group-b">
+                                <button class="gb-action-btn btn-b-round" id="btn-throw" aria-label="Atirar Chinelo">🩴</button>
+                                <span class="btn-label">B</span>
+                            </div>
+                            <!-- A Button: Jump -->
+                            <div class="btn-group btn-group-a">
+                                <button class="gb-action-btn btn-a-round" id="btn-jump" aria-label="Pular">A</button>
+                                <span class="btn-label">A</span>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="brazilian-joke">
-                        <p id="joke-text">"Fiado só amanhã! O Seu Manuel está de olho..."</p>
+            <!-- Center Lower Bar: SELECT & START Pills + Speaker Grill -->
+            <div class="gameboy-lower-deck">
+                <div class="select-start-container">
+                    <div class="pill-group">
+                        <button class="pill-btn" id="btn-toggle-music" aria-label="Select / Som"></button>
+                        <span class="pill-label">SELECT (SOM)</span>
+                    </div>
+                    <div class="pill-group">
+                        <button class="pill-btn" id="btn-pause-start" aria-label="Start / Pausar"></button>
+                        <span class="pill-label">START</span>
                     </div>
                 </div>
-            </aside>
+
+                <!-- Game Boy Iconic Speaker Grill -->
+                <div class="gb-speaker" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+
         </div>
 
-        <footer class="arcade-footer">
-            <p>Criado para celebrar a boemia e a cultura urbana brasileira. Jogue no teclado ou celular!</p>
-        </footer>
+        <!-- Optional lower drawer for High Scores & Info -->
+        <div class="gameboy-extra-info">
+            <details class="extra-accordion">
+                <summary class="extra-summary">🏆 Ver Placar de Líderes & Som</summary>
+                <div class="extra-content">
+                    <div class="score-box-drawer">
+                        <strong>PLACAR DO BOTECO:</strong>
+                        <ol class="score-list" id="high-score-list">
+                            <li><span>1. Sr. Longuinho</span> <span class="neon-yellow">R$ 1500</span></li>
+                            <li><span>2. Zeca do Copo</span> <span class="neon-yellow">R$ 1200</span></li>
+                            <li><span>3. Caramelo</span> <span class="neon-yellow">R$ 900</span></li>
+                            <li><span>4. Seu Manuel</span> <span class="neon-yellow">R$ 500</span></li>
+                            <li><span>5. Visitante</span> <span class="neon-yellow">R$ 100</span></li>
+                        </ol>
+                    </div>
+                    <p class="joke-footer" id="joke-text">"Fiado só amanhã! O Seu Manuel está de olho..."</p>
+                    <div class="audio-mini-switches">
+                        <button id="btn-toggle-sfx" class="btn-sfx-small">🔊 Efeitos Sonoros: ON</button>
+                    </div>
+                </div>
+            </details>
+        </div>
     </div>
 
     <script src="game.js"></script>
