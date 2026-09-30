@@ -1,4 +1,4 @@
-# 🍺 Super Bira: O Rei do Boteco
+# 🍺 Sr. Longuinho Adventures: O Rei do Boteco
 
 > Um jogo de plataforma 2D retrô com tema e humor tipicamente brasileiros, inspirado no clássico Mario Bros.
 

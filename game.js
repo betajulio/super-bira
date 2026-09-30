@@ -1395,8 +1395,8 @@ class Game {
         this.goalX = 3000;
         
         // High Score list local storage
-        this.highScores = JSON.parse(localStorage.getItem('biraHighScores')) || [
-            { name: "Bira da Regata", score: 1500 },
+        this.highScores = JSON.parse(localStorage.getItem('longuinhoHighScores')) || [
+            { name: "Sr. Longuinho", score: 1500 },
             { name: "Zeca do Copo", score: 1200 },
             { name: "Caramelo", score: 900 },
             { name: "Seu Manuel", score: 500 },
@@ -1787,7 +1787,7 @@ class Game {
         document.getElementById('final-score').innerText = `R$ ${this.player.score.toFixed(2)}`;
         document.getElementById('screen-gameover').classList.remove('hidden');
         
-        this.saveHighScore("Bira", this.player.score);
+        this.saveHighScore("Sr. Longuinho", this.player.score);
     }
 
     triggerVictory() {
@@ -1807,7 +1807,7 @@ class Game {
             this.particles.push(new Particle(400, 200, 'confetti'));
         }
         
-        this.saveHighScore("Super Bira", this.player.score);
+        this.saveHighScore("Sr. Longuinho", this.player.score);
     }
 
     saveHighScore(defaultName, score) {
@@ -1821,7 +1821,7 @@ class Game {
         this.highScores.sort((a, b) => b.score - a.score);
         this.highScores = this.highScores.slice(0, 5);
         
-        localStorage.setItem('biraHighScores', JSON.stringify(this.highScores));
+        localStorage.setItem('longuinhoHighScores', JSON.stringify(this.highScores));
         this.renderHighScores();
     }
 
