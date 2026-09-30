@@ -1795,7 +1795,13 @@ class WorldMap {
 
         const handleCanvasClick = (e) => {
             if (this.game.state !== 'MAP') return;
-            e.preventDefault();
+            // Prevent touch-through when clicking START from menu!
+            if (Date.now() < (this.touchCooldown || 0)) return;
+            if (this.keyDebounce > 0) return;
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
 
             const rect = canvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -1806,7 +1812,7 @@ class WorldMap {
             const clickX = (clientX - rect.left) * scaleX;
             const clickY = (clientY - rect.top) * scaleY;
 
-            // Check if clicked near any node (within 35px)
+            // Check if clicked near any node (within 38px)
             for (let node of this.nodes) {
                 const dist = Math.hypot(clickX - node.x, clickY - node.y);
                 if (dist < 38) {
@@ -1824,7 +1830,7 @@ class WorldMap {
             }
 
             // Also check if clicked bottom enter box
-            if (clickY > 400 && clickY < 460 && clickX > 150 && clickX < 650) {
+            if (clickY > 400 && clickY < 470 && clickX > 100 && clickX < 700) {
                 this.enterCurrentStage();
             }
         };
@@ -2280,6 +2286,10 @@ class Game {
         this.player = new Player();
         this.score = 0;
         this.state = 'MAP';
+        if (this.worldMap) {
+            this.worldMap.keyDebounce = 40;
+            this.worldMap.touchCooldown = Date.now() + 700;
+        }
         this.hideAllScreens();
         this.syncHUD();
     }
@@ -2473,6 +2483,12 @@ class Game {
             this.keys[e.key] = true;
             this.keys[e.key.toLowerCase()] = true; // handle case issues
             
+            // Start from Menu with Enter or Space
+            if (this.state === 'MENU' && (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight')) {
+                this.startNewGame();
+                return;
+            }
+
             // Game pausing trigger
             if (e.key === 'p' || e.key === 'P') {
                 if (this.state === 'PLAYING') {
@@ -2497,33 +2513,47 @@ class Game {
     }
 
     initDOMButtons() {
-        // UI Screens buttons
-        document.getElementById('btn-start').addEventListener('click', () => {
+        // Safe UI button setup with both touch and click handling
+        const setupUIBtn = (id, callback) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const handler = (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                callback();
+            };
+            el.addEventListener('click', handler);
+            el.addEventListener('touchend', handler);
+        };
+
+        setupUIBtn('btn-start', () => {
             this.startNewGame();
         });
 
-        document.getElementById('btn-how-to').addEventListener('click', () => {
+        setupUIBtn('btn-how-to', () => {
             this.state = 'INSTRUCTIONS';
             this.hideAllScreens();
             document.getElementById('screen-instructions').classList.remove('hidden');
             this.sounds.init();
         });
 
-        document.getElementById('btn-back-menu').addEventListener('click', () => {
+        setupUIBtn('btn-back-menu', () => {
             this.state = 'MENU';
             this.hideAllScreens();
             document.getElementById('screen-menu').classList.remove('hidden');
         });
 
-        document.getElementById('btn-restart').addEventListener('click', () => {
+        setupUIBtn('btn-restart', () => {
             this.startNewGame();
         });
 
-        document.getElementById('btn-victory-restart').addEventListener('click', () => {
+        setupUIBtn('btn-victory-restart', () => {
             this.startNewGame();
         });
 
-        document.getElementById('btn-resume').addEventListener('click', () => {
+        setupUIBtn('btn-resume', () => {
             this.state = 'PLAYING';
             document.getElementById('screen-paused').classList.add('hidden');
         });
@@ -2547,7 +2577,10 @@ class Game {
         const startBtn = document.getElementById('btn-pause-start');
         if (startBtn) {
             const handleStart = (e) => {
-                if (e) e.preventDefault();
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
                 startBtn.classList.add('pressed');
                 setTimeout(() => startBtn.classList.remove('pressed'), 120);
 
@@ -2573,13 +2606,23 @@ class Game {
             if (!btn) return;
             
             const press = (e) => {
-                if (e) e.preventDefault();
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                if (this.state === 'MENU' && (key === 'btn-jump' || key === 'btn-dash')) {
+                    this.startNewGame();
+                    return;
+                }
                 this.keys[key] = true;
                 btn.classList.add('pressed');
-                if (isThrow) this.throwChinelo();
+                if (isThrow && this.state === 'PLAYING') this.throwChinelo();
             };
             const release = (e) => {
-                if (e) e.preventDefault();
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
                 this.keys[key] = false;
                 btn.classList.remove('pressed');
             };

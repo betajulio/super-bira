@@ -80,16 +80,11 @@
                         <div id="screen-menu" class="overlay-screen active">
                             <h2 class="game-logo">SR. LONGUINHO</h2>
                             <span class="logo-subtitle">ADVENTURES</span>
-                            <p class="tagline">Explore o Jd. São Armando (Itaquá)! Desvie de motoqueiros cortando o giro, noiados, cachorros e enfrente a Dona Fila no Mercadinho Talismã!</p>
+                            <p class="tagline">Explore o Jd. São Armando (Itaquá)! Desvie de motoqueiros, noiados e encare a Dona Fila no Mercadinho Talismã!</p>
                             
                             <div class="menu-options">
-                                <button id="btn-start" class="btn btn-primary">MAPA DE ITAQUÁ</button>
-                                <button id="btn-how-to" class="btn btn-secondary">COMO JOGAR</button>
-                            </div>
-                            
-                            <div class="char-preview">
-                                <div class="pixel-bira-preview"></div>
-                                <span class="char-desc">Sr. Longuinho: O terror do fiado no Jd. São Armando.</span>
+                                <button id="btn-start" class="btn btn-primary">▶ INICIAR (MAPA)</button>
+                                <button id="btn-how-to" class="btn btn-secondary">📖 COMO JOGAR</button>
                             </div>
                         </div>
 
@@ -99,59 +94,54 @@
                                 <div class="gameplay-group">
                                     <strong>🗺️ MAPA MUNDI (ESTILO MARIO 3):</strong>
                                     <ul>
-                                        <li>Navegue pelas ruas do <b>Jd. São Armando (Itaquá)</b> pelo D-Pad ou toque.</li>
-                                        <li>Fases disponíveis: <b>R. Pitangueira</b>, <b>Panorama 1</b>, <b>Panorama 2</b> e o Chefão <b>Mercadinho Talismã</b>!</li>
-                                        <li>Ruas bloqueadas estão <b>🚧 Em Obras</b> pela prefeitura!</li>
+                                        <li>Navegue pelas ruas do <b>Jd. São Armando</b> com o D-Pad ou toque.</li>
+                                        <li>Aperte <b>Botão A</b> ou toque na rua para entrar!</li>
                                     </ul>
                                 </div>
                                 <div class="gameplay-group">
-                                    <strong>🎮 CONTROLES GAME BOY:</strong>
+                                    <strong>🎮 CONTROLES:</strong>
                                     <ul>
-                                        <li><b>D-PAD ◀ / ▶</b>: Andar / Selecionar fases no mapa</li>
-                                        <li><b>BOTÃO A</b>: Pular / Entrar na fase selecionada</li>
-                                        <li><b>BOTÃO B 🩴</b>: Arremessar Chinelo bumerangue</li>
+                                        <li><b>D-PAD</b>: Andar / Selecionar fases</li>
+                                        <li><b>BOTÃO A</b>: Pular / Entrar na fase</li>
+                                        <li><b>BOTÃO B 🩴</b>: Arremessar Chinelo</li>
                                         <li><b>BOTÃO ⚡</b>: Cambaleio / Dash invencível</li>
                                         <li><b>START</b>: Pausar / Continuar</li>
-                                        <li><b>SELECT</b>: Ligar / Desligar Música</li>
                                     </ul>
                                 </div>
                                 <div class="gameplay-group">
-                                    <strong>🏍️ PERIGOS DA QUEBRADA:</strong>
+                                    <strong>👵 CHEFÃO: DONA FILA</strong>
                                     <ul>
-                                        <li><b>Motoqueiro do Grau</b>: Corta giro "RAN-DAN-DAN" em alta velocidade!</li>
-                                        <li><b>Noiados / Vendedores</b>: Correm rápido com bermuda cyclone e jogam fumaça.</li>
-                                        <li><b>Vira-Lata Caramelo</b>: Patrulha latindo pela calçada.</li>
-                                        <li><b>Chefão Dona Fila</b>: Cobra a caderneta de fiado jogando contas no Mercadinho Talismã!</li>
+                                        <li>Cobra o fiado no <b>Mercadinho Talismã</b>!</li>
                                     </ul>
                                 </div>
                             </div>
-                            <button id="btn-back-menu" class="btn btn-secondary">VOLTAR</button>
+                            <button id="btn-back-menu" class="btn btn-secondary">◀ VOLTAR AO MENU</button>
                         </div>
 
                         <div id="screen-gameover" class="overlay-screen hidden">
                             <h2 class="neon-red">DEU RESSACA!</h2>
-                            <p>Você tomou um grau da CG 160, caiu no buraco da prefeitura ou a Dona Fila te pegou no fiado...</p>
+                            <p>Você tomou um grau da CG 160 ou a Dona Fila te pegou no fiado...</p>
                             <div class="score-summary">
                                 <span>CONTA FINAL:</span>
                                 <span id="final-score" class="stat-value neon-yellow">R$ 0,00</span>
                             </div>
-                            <button id="btn-restart" class="btn btn-primary">TENTAR NOVAMENTE</button>
+                            <button id="btn-restart" class="btn btn-primary">🔄 TENTAR NOVAMENTE</button>
                         </div>
 
                         <div id="screen-victory" class="overlay-screen hidden">
                             <h2 class="neon-green">MITO DO JD. SÃO ARMANDO!</h2>
-                            <p>Você derrotou a Dona Fila no Mercadinho Talismã, rasgou a caderneta de fiado e dominou Itaquá!</p>
+                            <p>Você derrotou a Dona Fila no Mercadinho Talismã, rasgou a caderneta e dominou Itaquá!</p>
                             <div class="score-summary">
                                 <span>SOBROU:</span>
                                 <span id="victory-score" class="stat-value neon-green">R$ 0,00</span>
                             </div>
-                            <button id="btn-victory-restart" class="btn btn-primary">JOGAR DE NOVO</button>
+                            <button id="btn-victory-restart" class="btn btn-primary">🍺 JOGAR DE NOVO</button>
                         </div>
 
                         <div id="screen-paused" class="overlay-screen hidden">
                             <h2>PAUSA PRO GOLINHO</h2>
                             <p>O jogo está pausado. Respire fundo e recupere o fôlego.</p>
-                            <button id="btn-resume" class="btn btn-primary">CONTINUAR</button>
+                            <button id="btn-resume" class="btn btn-primary">▶ CONTINUAR</button>
                         </div>
                     </div>
                 </div>
