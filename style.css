@@ -244,12 +244,46 @@ html, body {
     gap: 6px;
 }
 
-/* Dual Pinstripe Lines */
+/* Bezel Header Bar & Dual Pinstripe Lines */
+.bezel-header-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 4px 2px 4px;
+}
+
+.battery-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.battery-led {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #440000;
+}
+
+.battery-led.active {
+    background: var(--battery-led);
+    box-shadow: 0 0 6px var(--battery-glow);
+    animation: battery-flicker 4s infinite alternate;
+}
+
+.battery-label {
+    font-family: var(--font-pixel);
+    font-size: 0.35rem;
+    color: #8c82a2;
+    letter-spacing: 0.5px;
+}
+
 .bezel-header-lines {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding: 0 15px;
 }
 
 .bezel-line {
@@ -267,43 +301,14 @@ html, body {
     box-shadow: 0 0 4px rgba(188, 26, 88, 0.5);
 }
 
-/* Inner Screen Frame with Battery LED */
+/* Inner Screen Frame with Glass Lens */
 .screen-frame {
     position: relative;
     border-radius: 6px;
     overflow: hidden;
     background: #000;
-}
-
-.battery-indicator {
-    position: absolute;
-    top: 12px;
-    left: 8px;
-    z-index: 15;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    pointer-events: none;
-}
-
-.battery-led {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #440000;
-}
-
-.battery-led.active {
-    background: var(--battery-led);
-    box-shadow: 0 0 8px var(--battery-glow);
-    animation: battery-flicker 4s infinite alternate;
-}
-
-.battery-label {
-    font-family: var(--font-pixel);
-    font-size: 0.38rem;
-    color: #8c82a2;
-    letter-spacing: 0.5px;
+    border: 1px solid #140d21;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.85);
 }
 
 /* The Game Screen (Canvas) */
@@ -349,16 +354,18 @@ html, body {
 .overlay-screen {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(14, 9, 23, 0.94);
+    background: rgba(14, 9, 23, 0.95);
     z-index: 10;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 15px;
+    padding: 6px 12px 6px 12px;
     text-align: center;
     backdrop-filter: blur(4px);
     transition: opacity 0.2s ease, visibility 0.2s ease;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .overlay-screen.hidden {
@@ -367,43 +374,52 @@ html, body {
     pointer-events: none;
 }
 
+.overlay-screen h2 {
+    font-family: var(--font-pixel);
+    font-size: clamp(0.82rem, 3.8vw, 1.15rem);
+    margin: 2px 0 3px 0;
+    line-height: 1.15;
+}
+
 .overlay-screen h2.game-logo {
     font-family: var(--font-pixel);
-    font-size: 1.3rem;
+    font-size: clamp(0.85rem, 3.8vw, 1.15rem);
     color: var(--neon-yellow);
-    text-shadow: 0 0 10px var(--neon-yellow-glow);
-    margin-bottom: 2px;
+    text-shadow: 0 0 8px var(--neon-yellow-glow);
+    margin: 2px 0 2px 0;
+    line-height: 1.15;
 }
 
 .logo-subtitle {
     font-family: var(--font-pixel);
-    font-size: 0.65rem;
+    font-size: clamp(0.46rem, 2vw, 0.58rem);
     color: var(--neon-blue);
     letter-spacing: 2px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    display: block;
 }
 
 .tagline {
-    font-size: 0.72rem;
-    max-width: 90%;
-    line-height: 1.35;
+    font-size: clamp(0.52rem, 2.2vw, 0.65rem);
+    max-width: 96%;
+    line-height: 1.25;
     color: #beb6d0;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 }
 
 .menu-options {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
-    max-width: 280px;
-    margin-bottom: 10px;
+    max-width: 250px;
+    margin-bottom: 6px;
 }
 
 .btn {
     flex: 1;
     font-family: var(--font-pixel);
-    font-size: 0.58rem;
-    padding: 10px 8px;
+    font-size: clamp(0.44rem, 1.8vw, 0.54rem);
+    padding: 7px 6px;
     border-radius: 6px;
     border: 2px solid transparent;
     cursor: pointer;
@@ -426,15 +442,15 @@ html, body {
 .char-preview {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 4px 8px;
+    padding: 2px 8px;
     border-radius: 6px;
 }
 
 .pixel-bira-preview {
-    font-size: 1.2rem;
+    font-size: 0.95rem;
 }
 
 .pixel-bira-preview::before {
@@ -442,36 +458,51 @@ html, body {
 }
 
 .char-desc {
-    font-size: 0.6rem;
+    font-size: clamp(0.48rem, 1.8vw, 0.55rem);
     color: #a79cb8;
+}
+
+.overlay-screen h3 {
+    font-family: var(--font-pixel);
+    font-size: clamp(0.68rem, 3vw, 0.88rem);
+    color: var(--neon-blue);
+    margin: 2px 0 4px 0;
+}
+
+.overlay-screen p {
+    font-size: clamp(0.52rem, 2.2vw, 0.65rem);
+    color: #c4bcd4;
+    line-height: 1.25;
+    max-width: 92%;
+    margin-bottom: 6px;
 }
 
 .instructions-content {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
     text-align: left;
-    font-size: 0.65rem;
-    line-height: 1.3;
-    max-height: 180px;
+    font-size: clamp(0.5rem, 2vw, 0.6rem);
+    line-height: 1.22;
+    max-height: 110px;
     overflow-y: auto;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     padding: 0 4px;
 }
 
 .instructions-content strong {
     font-family: var(--font-pixel);
-    font-size: 0.55rem;
+    font-size: clamp(0.44rem, 1.8vw, 0.52rem);
     color: var(--neon-yellow);
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .instructions-content ul {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
 }
 
 .instructions-content li {
@@ -480,12 +511,12 @@ html, body {
 
 .score-summary {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     align-items: center;
     font-family: var(--font-pixel);
-    font-size: 0.8rem;
-    margin: 10px 0;
-    padding: 8px 14px;
+    font-size: clamp(0.62rem, 2.5vw, 0.75rem);
+    margin: 4px 0;
+    padding: 4px 10px;
     background: rgba(0,0,0,0.5);
     border-radius: 6px;
     border: 1px solid rgba(255,255,255,0.1);
